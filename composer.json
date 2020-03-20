@@ -1,0 +1,30 @@
+{
+  "name": "houseofapis/currencyapi",
+  "type": "library",
+  "description": "Composer package for the CurrencyApi.net JSON & XML live currency feed",
+  "keywords": ["currency","feed","api","live-rates", "json currency", "crypto"],
+  "homepage": "https://currencyapi.net",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Oli Girling",
+      "email": "support@currencyapi.net",
+      "homepage": "https://currencyapi.net",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "ext-curl": "*",
+    "ext-json": "*",
+    "ext-simplexml": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "HouseOfApis\\CurrencyApi\\": "src/"
+    }
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^7",
+    "php-mock/php-mock-phpunit": "^2.6"
+  }
+}
