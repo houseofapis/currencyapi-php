@@ -1,6 +1,6 @@
 # CurrencyApi
 
-<img src="https://user-images.githubusercontent.com/42932986/77211101-bb99ab80-6afa-11ea-8d37-941c9016b012.png" width="104" height="20" /><br>
+<a href="#"><img src="https://user-images.githubusercontent.com/42932986/77211101-bb99ab80-6afa-11ea-8d37-941c9016b012.png" width="104" height="20" /></a><br>
 
 CurrencyApi provides live currency rates via a REST API. A live currency feed for over 152 currencies including cryptos, like Bitcoin, Litecoin and Ethereum. JSON and XML currency api updated every 60 seconds. 
 
@@ -8,7 +8,7 @@ Features:
 
 - Live exchange rates (updated every 60 seconds).
 - 152 currencies world currencies.
-- Popular crypto-currencies included; Bitcoin, Litecoin etc.
+- Popular cryptocurrencies included; Bitcoin, Litecoin etc.
 - Convert currencies on the fly with the convert endpoint.
 - Historical currency rates back to year 2000.
 
@@ -50,10 +50,10 @@ $currencyApi = new \CurrencyApi\CurrencyApi('API_KEY');
 
 ## Usage
 
-#### Live rates:
+### Live rates:
 
 ```php
-$result = $currencyApi->rates()
+$result = $currencyApi->rates();
 ```
 
 Example with all available methods:
@@ -62,7 +62,7 @@ $result = $currencyApi
     ->setBase('USD')
     ->setLimit('BTC,EUR,GBP')
     ->setOutput('JSON')
-    ->rates()
+    ->rates();
 ```
 
 Methods for rates endpoint:
@@ -73,31 +73,31 @@ Methods for rates endpoint:
 
 `setOutput()`
 
-#### List of available currencies:
+### List of available currencies:
 
 ```php
-$result = $currencyApi->currencies()
+$result = $currencyApi->currencies();
 ```
 
 Example with all available methods:
 ```php
 $result = $currencyApi
     ->setOutput('XML')
-    ->currencies()
+    ->currencies();
 ```
 
 Methods for currencies endpoint:
 
 `setOutput()`
 
-#### Convert:
+### Convert:
 
 ```php
 $result = $currencyApi
     ->setAmount(100)
     ->setFrom('BTC')
     ->setTo('GBP')
-    ->convert()
+    ->convert();
 ```
 
 Methods for convert endpoint:
@@ -111,10 +111,10 @@ Methods for convert endpoint:
 `setOutput()`
 
 
-#### Historical:
+### Historical:
 
 ```php
-$result = $currencyApi->setDate('2019-01-01')->historical()
+$result = $currencyApi->setDate('2019-01-01')->historical();
 ```
 
 Example with all available methods:
@@ -125,7 +125,7 @@ $result = $currencyApi
     ->setBase('GBP')
     ->setLimit('USD')
     ->setOutput('JSON')
-    ->historical()
+    ->historical();
 ```
 
 Methods for historical endpoint:
@@ -138,10 +138,10 @@ Methods for historical endpoint:
 
 `setOutput()`
 
-#### Timeframe:
+### Timeframe:
 
 ```php
-$result = $currencyApi->setStartDate('2019-01-01')->setEndDate('2019-01-05')->historical()
+$result = $currencyApi->setStartDate('2019-01-01')->setEndDate('2019-01-05')->historical();
 ```
 
 Example with all available methods:
@@ -153,7 +153,7 @@ $result = $currencyApi
     ->setBase('GBP')
     ->setLimit('USD,BTC')
     ->setOutput('XML')
-    ->timeframe()
+    ->timeframe();
 ```
 
 Methods for timeframe endpoint:
