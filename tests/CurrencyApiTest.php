@@ -19,7 +19,7 @@ class CurrencyApiTest extends TestCase
     /**
      * @return void
      */
-    protected function setUp()
+    protected function setUp() : void
     {
         $this->currencyApi = new CurrencyApi('123');
     }
