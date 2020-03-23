@@ -1,8 +1,8 @@
-# CurrencyApi
+# CurrencyApi PHP wrapper 
 
-<img src="https://user-images.githubusercontent.com/42932986/77211101-bb99ab80-6afa-11ea-8d37-941c9016b012.png" width="104" height="20" /><br>
+<img src="https://user-images.githubusercontent.com/42932986/77355951-4ff35080-6d3d-11ea-88a9-20fee97adb04.png" width="104" height="20" /><br>
 
-CurrencyApi provides live currency rates via a REST API. A live currency feed for over 152 currencies, including physical (USD, GBP, EUR + more) and cryptos (Bitcoin, Litecoin, Ethereum + more). A JSON and XML currency api updated every 60 seconds. 
+<a href="https://currencyapi.net" title="CurrencyApi">CurrencyApi.net</a> provides live currency rates via a REST API. A live currency feed for over 152 currencies, including physical (USD, GBP, EUR + more) and cryptos (Bitcoin, Litecoin, Ethereum + more). A JSON and XML currency api updated every 60 seconds. 
 
 Features:
 
@@ -74,6 +74,8 @@ $result = $currencyApi
 | `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
 | `setLimit()` | Limit which currency conversions are returned using the limit param. Comma separated (no space) values. **Optional** |
 
+<br>
+
 ### List of available currencies:
 
 ```php
@@ -92,6 +94,8 @@ $result = $currencyApi
 | Methods | Description |
 | --- | --- |
 | `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
+
+<br>
 
 ### Convert:
 
@@ -112,6 +116,7 @@ $result = $currencyApi
 | `setTo()` | The currency you want to convert the amount 'to'. Again this will be a three letter currency code from the ones we offer. **Required**. |
 | `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
 
+<br>
 
 ### Historical:
 
@@ -138,6 +143,8 @@ $result = $currencyApi
 | `setBase()` | The base currency you wish you receive the currency conversions for. This will output all currency conversions for that currency. **Default: USD**. |
 | `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
 | `setLimit()` | Limit which currency conversions are returned using the limit param. Comma separated (no space) values. **Optional** |
+
+<br>
 
 ### Timeframe:
 
@@ -166,6 +173,4 @@ $result = $currencyApi
 | `setBase()` | The base currency you wish you receive the currency conversions for. This will output all currency conversions for that currency. **Default: USD**. |
 | `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
 | `setLimit()` | Limit which currency conversions are returned using the limit param. Comma separated (no space) values. **Optional** |
-
-
 
