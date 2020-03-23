@@ -1,8 +1,8 @@
 # CurrencyApi
 
-<a href="#"><img src="https://user-images.githubusercontent.com/42932986/77211101-bb99ab80-6afa-11ea-8d37-941c9016b012.png" width="104" height="20" /></a><br>
+<img src="https://user-images.githubusercontent.com/42932986/77211101-bb99ab80-6afa-11ea-8d37-941c9016b012.png" width="104" height="20" /><br>
 
-CurrencyApi provides live currency rates via a REST API. A live currency feed for over 152 currencies including cryptos, like Bitcoin, Litecoin and Ethereum. JSON and XML currency api updated every 60 seconds. 
+CurrencyApi provides live currency rates via a REST API. A live currency feed for over 152 currencies, including physical (USD, GBP, EUR + more) and cryptos (Bitcoin, Litecoin, Ethereum + more). A JSON and XML currency api updated every 60 seconds. 
 
 Features:
 
@@ -11,11 +11,13 @@ Features:
 - Popular cryptocurrencies included; Bitcoin, Litecoin etc.
 - Convert currencies on the fly with the convert endpoint.
 - Historical currency rates back to year 2000.
+- Easy to follow <a href="https://currencyapi.net/documentation" title="currency-api-documentation">documentation</a>
 
+Signup for a free or paid account <a href="https://currencyapi.net/#pricing-sec" title="currency-api-pricing">here</a>.
 
 ## This package
 
-PHP wrapper for CurrencyApi.net endpoints.
+PHP wrapper for <a href="https://currencyapi.net" title="CurrencyApi">CurrencyApi.net</a> endpoints.
 
 #### Prerequisites
 
@@ -60,18 +62,17 @@ Example with all available methods:
 ```php
 $result = $currencyApi
     ->setBase('USD')
-    ->setLimit('BTC,EUR,GBP')
     ->setOutput('JSON')
+    ->setLimit('BTC,EUR,GBP')
     ->rates();
 ```
+**Available methods for rates endpoint**
 
-Methods for rates endpoint:
-
-`setBase()`
-
-`setLimit()`
-
-`setOutput()`
+| Methods | Description |
+| --- | --- |
+| `setBase()` | The base currency you wish you receive the currency conversions for. This will output all currency conversions for that currency. **Default: USD**. |
+| `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
+| `setLimit()` | Limit which currency conversions are returned using the limit param. Comma separated (no space) values. **Optional** |
 
 ### List of available currencies:
 
@@ -86,9 +87,11 @@ $result = $currencyApi
     ->currencies();
 ```
 
-Methods for currencies endpoint:
+**Available methods for currencies endpoint**
 
-`setOutput()`
+| Methods | Description |
+| --- | --- |
+| `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
 
 ### Convert:
 
@@ -100,15 +103,14 @@ $result = $currencyApi
     ->convert();
 ```
 
-Methods for convert endpoint:
+**Available methods for convert endpoint**
 
-`setAmount()` * Required
-
-`setFrom()` * Required
-
-`setTo()` * Required
-
-`setOutput()`
+| Methods | Description |
+| --- | --- |
+| `setAmount()` | The value of the currency you want to convert from. This should be a number and can contain a decimal place. **Required**. |
+| `setFrom()` | The currency you want to convert. This will be a three letter ISO 4217 currency code from one of the currencies we have rates for. **Required**. |
+| `setTo()` | The currency you want to convert the amount 'to'. Again this will be a three letter currency code from the ones we offer. **Required**. |
+| `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
 
 
 ### Historical:
@@ -128,15 +130,14 @@ $result = $currencyApi
     ->historical();
 ```
 
-Methods for historical endpoint:
+**Available methods for historical endpoint**
 
-`setDate()` * Required
-
-`setBase()`
-
-`setLimit()`
-
-`setOutput()`
+| Methods | Description |
+| --- | --- |
+| `setDate()` | The historical date you wish to receive the currency conversions for. This should be formatted as YYYY-MM-DD. **Required**. |
+| `setBase()` | The base currency you wish you receive the currency conversions for. This will output all currency conversions for that currency. **Default: USD**. |
+| `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
+| `setLimit()` | Limit which currency conversions are returned using the limit param. Comma separated (no space) values. **Optional** |
 
 ### Timeframe:
 
@@ -156,16 +157,15 @@ $result = $currencyApi
     ->timeframe();
 ```
 
-Methods for timeframe endpoint:
+**Available methods for timeframe endpoint**
 
-`setStartDate()` * Required
+| Methods | Description |
+| --- | --- |
+| `setStartDate()` | The historical date you wish to receive the currency conversions from. This should be formatted as YYYY-MM-DD. **Required**. |
+| `setEndDate()` | The historical date you wish to receive the currency conversions until. This should be formatted as YYYY-MM-DD. **Required**. |
+| `setBase()` | The base currency you wish you receive the currency conversions for. This will output all currency conversions for that currency. **Default: USD**. |
+| `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
+| `setLimit()` | Limit which currency conversions are returned using the limit param. Comma separated (no space) values. **Optional** |
 
-`setEndDate()` * Required
-
-`setBase()`
-
-`setLimit()`
-
-`setOutput()`
 
 
