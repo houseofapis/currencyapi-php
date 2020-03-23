@@ -179,6 +179,11 @@ class CurrencyApiTest extends TestCase
     public function testBuildUrl()
     {
         $endpoint = 'rates';
+
+        $urlParams = [];
+        $invokedMethod = $this->invokeMethod($this->currencyApi, 'buildUrl', [$endpoint, $urlParams]);
+        $this->assertEquals('https://currencyapi.net/api/v1/rates?key=123', $invokedMethod);
+
         $urlParams = ['limit' => 'GBP,EUR'];
         $invokedMethod = $this->invokeMethod($this->currencyApi, 'buildUrl', [$endpoint, $urlParams]);
         $this->assertEquals('https://currencyapi.net/api/v1/rates?limit=GBP%2CEUR&key=123', $invokedMethod);

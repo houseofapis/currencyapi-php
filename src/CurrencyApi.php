@@ -375,9 +375,7 @@ class CurrencyApi
     protected function buildUrl(string $endpoint, array $urlParams = []) : string
     {
         return self::BASE_URL . self::API_VERSION . '/' . $endpoint . '?'
-            . http_build_query(
-                array_merge($urlParams, $this->getSharedParams())
-            );
+            . http_build_query(array_merge($urlParams, $this->getSharedParams()));
     }
 
 
