@@ -43,6 +43,14 @@ class CurrencyApiTest extends TestCase
         return $method->invokeArgs($object, $parameters);
     }
 
+    public function getProtectedProperty($object, $property) 
+    {
+        $reflection = new \ReflectionClass($object);
+        $reflection_property = $reflection->getProperty($property);
+        $reflection_property->setAccessible(true);
+        return $reflection_property->getValue($object);
+    }   
+
     public function testGetCommonBaseAndLimitDefaultBaseWithLimit()
     {
         $base = 'USD';
@@ -93,49 +101,49 @@ class CurrencyApiTest extends TestCase
     {
         $base = 'USD';
         $this->assertEquals($this->currencyApi, $this->currencyApi->setBase($base));
-        $this->assertAttributeEquals($base, 'base', $this->currencyApi);
+        $this->assertEquals($base, $this->getProtectedProperty($this->currencyApi, 'base'));
     }
 
     public function testSetAmount()
     {
         $amount = 1;
         $this->assertEquals($this->currencyApi, $this->currencyApi->setAmount($amount));
-        $this->assertAttributeEquals($amount, 'amount', $this->currencyApi);
+        $this->assertEquals($amount, $this->getProtectedProperty($this->currencyApi, 'amount'));
     }
 
     public function testSetFrom()
     {
         $from = 'BTC';
         $this->assertEquals($this->currencyApi, $this->currencyApi->setFrom($from));
-        $this->assertAttributeEquals($from, 'convertFrom', $this->currencyApi);
+        $this->assertEquals($from, $this->getProtectedProperty($this->currencyApi, 'convertFrom'));
     }
 
     public function testSetTo()
     {
         $from = 'EUR';
         $this->assertEquals($this->currencyApi, $this->currencyApi->setTo($from));
-        $this->assertAttributeEquals($from, 'convertTo', $this->currencyApi);
+        $this->assertEquals($from, $this->getProtectedProperty($this->currencyApi, 'convertTo'));
     }
 
     public function testSetDate()
     {
         $date = '2000-01-01';
         $this->assertEquals($this->currencyApi, $this->currencyApi->setDate($date));
-        $this->assertAttributeEquals($date, 'date', $this->currencyApi);
+        $this->assertEquals($date, $this->getProtectedProperty($this->currencyApi, 'date'));
     }
 
     public function testSetStartDate()
     {
         $date = '2000-01-01';
         $this->assertEquals($this->currencyApi, $this->currencyApi->setStartDate($date));
-        $this->assertAttributeEquals($date, 'start_date', $this->currencyApi);
+        $this->assertEquals($date, $this->getProtectedProperty($this->currencyApi, 'start_date'));
     }
 
     public function testSetEndDate()
     {
         $date = '2000-01-01';
         $this->assertEquals($this->currencyApi, $this->currencyApi->setEndDate($date));
-        $this->assertAttributeEquals($date, 'end_date', $this->currencyApi);
+        $this->assertEquals($date, $this->getProtectedProperty($this->currencyApi, 'end_date'));
     }
 
     public function testGetConvertParams()
