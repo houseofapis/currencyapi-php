@@ -2,4 +2,5 @@
 composer.lock
 vendor
 .phpunit.result.cache
-./build/logs
+build/logs/
+.phpunit.cache/
