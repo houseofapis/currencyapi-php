@@ -21,7 +21,8 @@ PHP wrapper for <a href="https://currencyapi.net" title="CurrencyApi">CurrencyAp
 
 #### Prerequisites
 
-- Minimum PHP 7.1+ (tested and working on PHP 7.4) 
+- Minimum PHP 7.1+
+- Working on PHP 8.2.10
 - Free or Paid account with CurrencyApi.net
 - Composer or clone this repo
 

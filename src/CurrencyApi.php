@@ -416,6 +416,9 @@ class CurrencyApi
         curl_setopt($ch, CURLOPT_TIMEOUT, $timeout);
         curl_setopt($ch, CURLOPT_FAILONERROR, false);
         curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, [
+            'X-Sdk: PHP'
+        ]);
 
         $responseBody = curl_exec($ch);
 
