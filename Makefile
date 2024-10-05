@@ -3,7 +3,7 @@
 LOCAL_DOCKER_IMAGE=houseofapis/currencyapi-php
 CONTAINER_NAME=currencyapi-php
 WORKING_DIR=/application
-PORT=7001
+PORT=7005
 DOCKER_COMMAND=docker run --rm -v ${PWD}:${WORKING_DIR} -w ${WORKING_DIR} --name ${CONTAINER_NAME} -p ${PORT}:${PORT} -it ${LOCAL_DOCKER_IMAGE}
 
 build: ## Build docker image
@@ -14,6 +14,9 @@ test: ## Run the tests
 
 install: ## Composer install
 	${DOCKER_COMMAND} composer install
+
+run: ## Run test file
+	${DOCKER_COMMAND} php run.php
 
 help:
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
