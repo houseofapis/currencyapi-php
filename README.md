@@ -15,15 +15,15 @@ Features:
 
 Signup for a free or paid account <a href="https://currencyapi.net/#pricing-sec" title="currency-api-pricing">here</a>.
 
-## This package
+## This package is a:
+
+PHP wrapper for <a href="https://currencyapi.net" title="CurrencyApi">CurrencyApi.net</a> endpoints.
+
+## Developer Guide
 
 For an easy to following developer guide, check out our [PHP Developer Guide](https://currencyapi.net/sdk/php-sdk).
 
 Alternatively keep reading below.
-
-## Developer Guide
-
-Get started with the CurrencyApi.net PHP SDK by following our [Developer Guide](https://currencyapi.net/sdk/php-sdk).
 
 #### Prerequisites
 
