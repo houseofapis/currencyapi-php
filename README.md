@@ -13,7 +13,7 @@ Features:
 - Historical currency rates back to year 2000.
 - Easy to follow <a href="https://currencyapi.net/documentation" title="currency-api-documentation">documentation</a>
 
-Signup for a free or paid account <a href="https://currencyapi.net/#pricing-sec" title="currency-api-pricing">here</a>.
+Signup for a free or paid account <a href="https://currencyapi.net/pricing" title="currency-api-pricing">here</a>.
 
 ## This package is a:
 
@@ -21,7 +21,7 @@ PHP wrapper for <a href="https://currencyapi.net" title="CurrencyApi">CurrencyAp
 
 ## Developer Guide
 
-For an easy to following developer guide, check out our [PHP Developer Guide](https://currencyapi.net/sdk/php-sdk).
+For an easy to following developer guide, check out our [PHP Developer Guide](https://currencyapi.net/sdk/php).
 
 Alternatively keep reading below.
 
