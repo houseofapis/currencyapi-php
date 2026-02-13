@@ -27,8 +27,8 @@ Alternatively keep reading below.
 
 #### Prerequisites
 
-- Minimum PHP 7.1+
-- Working on PHP 8.2.10
+- Minimum PHP 8.1+
+- Working on PHP 8.5
 - Free or Paid account with CurrencyApi.net
 - Composer or clone this repo
 

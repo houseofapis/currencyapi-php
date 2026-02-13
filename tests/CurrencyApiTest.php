@@ -38,7 +38,6 @@ class CurrencyApiTest extends TestCase
     {
         $reflection = new ReflectionClass(get_class($object));
         $method = $reflection->getMethod($methodName);
-        $method->setAccessible(true);
 
         return $method->invokeArgs($object, $parameters);
     }
@@ -47,7 +46,6 @@ class CurrencyApiTest extends TestCase
     {
         $reflection = new \ReflectionClass($object);
         $reflection_property = $reflection->getProperty($property);
-        $reflection_property->setAccessible(true);
         return $reflection_property->getValue($object);
     }   
 

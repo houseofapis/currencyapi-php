@@ -8,16 +8,17 @@ jobs:
 
     strategy:
       matrix:
-        php-version: [7.3.x, 7.4.x, 8.1.x, 8.2.x]
+        php-version: ['8.1', '8.2', '8.3', '8.4', '8.5']
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
 
     - name: Set up PHP ${{ matrix.php-version }}
       uses: shivammathur/setup-php@v2
       with:
         php-version: ${{ matrix.php-version }}
+        coverage: xdebug
 
     - name: Install dependencies
       run: composer install

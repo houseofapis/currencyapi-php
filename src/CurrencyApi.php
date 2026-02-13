@@ -440,7 +440,6 @@ class CurrencyApi
             throw new BadRequestException($message, $code);
         }
 
-        curl_close($ch);
         return $response;
     }
 }
