@@ -19,7 +19,7 @@ class CurrencyApi
     /**
      * Version of the API
      */
-    const API_VERSION = 'v1';
+    const API_VERSION = 'v2';
 
     /**
      * Default base currency
@@ -52,15 +52,6 @@ class CurrencyApi
      * @var string
      */
     protected $output = self::DEFAULT_OUTPUT;
-
-    /**
-     * Limit which currency conversions are returned
-     * Comma separated values
-     * eg: 'USD,GBP,BTC'
-     *
-     * @var string
-     */
-    protected $limit = '';
 
     /**
      * The value of the currency you want to convert from.
@@ -111,6 +102,22 @@ class CurrencyApi
     protected $end_date = '';
 
     /**
+     * The currency to retrieve OHLC data for.
+     * This will be a three letter ISO 4217 currency code.
+     *
+     * @var string
+     */
+    protected $currency = '';
+
+    /**
+     * The interval for OHLC data.
+     * One of: 5m, 15m, 30m, 1h, 4h, 12h, 1d
+     *
+     * @var string
+     */
+    protected $interval = '';
+
+    /**
      * CurrencyApi constructor.
      * @param string $key
      */
@@ -142,19 +149,6 @@ class CurrencyApi
     public function setOutput(string $output) : CurrencyApi
     {
         $this->output = strtoupper($output);
-        return $this;
-    }
-
-    /**
-     * Sets the limit of currencies returned
-     * See limit property for description ^
-     *
-     * @param string $limit
-     * @return CurrencyApi
-     */
-    public function setLimit(string $limit) : CurrencyApi
-    {
-        $this->limit = str_replace(' ', '', strtoupper($limit));
         return $this;
     }
 
@@ -237,6 +231,33 @@ class CurrencyApi
     }
 
     /**
+     * Sets the currency for the OHLC endpoint
+     * See currency property for description ^
+     *
+     * @param string $currency
+     * @return CurrencyApi
+     */
+    public function setCurrency(string $currency) : CurrencyApi
+    {
+        $this->currency = strtoupper($currency);
+        return $this;
+    }
+
+    /**
+     * Sets the interval for the OHLC endpoint
+     * See interval property for description ^
+     * One of: 5m, 15m, 30m, 1h, 4h, 12h, 1d
+     *
+     * @param string $interval
+     * @return CurrencyApi
+     */
+    public function setInterval(string $interval) : CurrencyApi
+    {
+        $this->interval = $interval;
+        return $this;
+    }
+
+    /**
      * Get the live rates
      *
      * @return array
@@ -245,7 +266,7 @@ class CurrencyApi
      */
     public function rates() : array
     {
-        return $this->get($this->buildUrl('rates', $this->getCommonBaseAndLimit()));
+        return $this->get($this->buildUrl('rates', $this->getCommonBase()));
     }
 
     /**
@@ -297,6 +318,18 @@ class CurrencyApi
     }
 
     /**
+     * Get OHLC (Open, High, Low, Close) data for a currency pair
+     *
+     * @return array
+     * @throws BadRequestException
+     * @throws ConnectException
+     */
+    public function ohlc() : array
+    {
+        return $this->get($this->buildUrl('ohlc', $this->getOhlcParams()));
+    }
+
+    /**
      * Prepares parameters for the convert endpoint
      *
      * @return array
@@ -317,7 +350,7 @@ class CurrencyApi
      */
     protected function getHistoricalParams() : array
     {
-        return array_merge(['date' => $this->date], $this->getCommonBaseAndLimit());
+        return array_merge(['date' => $this->date], $this->getCommonBase());
     }
 
     /**
@@ -330,25 +363,40 @@ class CurrencyApi
         return array_merge([
             'start_date' => $this->start_date,
             'end_date' => $this->end_date
-        ], $this->getCommonBaseAndLimit());
+        ], $this->getCommonBase());
     }
 
     /**
-     * Adds commonly used base and limit parameters if they are set
+     * Prepares parameters for the OHLC endpoint
      *
      * @return array
      */
-    protected function getCommonBaseAndLimit() : array
+    protected function getOhlcParams() : array
     {
-        $queryParams = [];
+        $params = [
+            'currency' => $this->currency,
+            'date' => $this->date,
+        ];
+        if ($this->base !== self::DEFAULT_BASE) {
+            $params['base'] = $this->base;
+        }
+        if (!empty($this->interval)) {
+            $params['interval'] = $this->interval;
+        }
+        return $params;
+    }
 
-        if($this->base !== self::DEFAULT_BASE) {
-            $queryParams['base'] = $this->base;
+    /**
+     * Adds the base parameter if it differs from the default
+     *
+     * @return array
+     */
+    protected function getCommonBase() : array
+    {
+        if ($this->base !== self::DEFAULT_BASE) {
+            return ['base' => $this->base];
         }
-        if(!empty($this->limit)) {
-            $queryParams['limit'] = $this->limit;
-        }
-        return $queryParams;
+        return [];
     }
 
     /**
@@ -387,7 +435,7 @@ class CurrencyApi
      * Example of what's returned:
      *      [
      *          [valid] => true
-     *          [timestamp] => 1583182512
+     *          [updated] => 1583182512
      *          [base] => GBP
      *          [rates] => [
      *              [AED] => 4.68987
