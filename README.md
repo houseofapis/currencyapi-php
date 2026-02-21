@@ -16,6 +16,8 @@ Features:
 
 Signup for a free or paid account <a href="https://currencyapi.net/pricing" title="currency-api-pricing">here</a>.
 
+> **Note:** API v1 is deprecated and will be retired on **31st July 2026**, at which point all v1 traffic will be redirected to v2. This SDK (v3.0.0+) targets API v2. If you are on an older version of this SDK, please upgrade.
+
 ## This package is a:
 
 PHP wrapper for <a href="https://currencyapi.net" title="CurrencyApi">CurrencyApi.net</a> endpoints.
