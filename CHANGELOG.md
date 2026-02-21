@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - 2026-02-19
+
+### Added
+- New `ohlc()` endpoint for OHLC (Open, High, Low, Close) candlestick data (requires paid plan).
+- New `setCurrency()` method to set the quote currency for the OHLC endpoint.
+- New `setInterval()` method to set the candle interval for the OHLC endpoint (`5m`, `15m`, `30m`, `1h`, `4h`, `12h`, `1d`).
+
+### Changed
+- Upgraded to API v2 (`/api/v2/`).
+
+### Removed
+- `setLimit()` method and `limit` parameter — API v2 no longer supports filtering currencies by a limit. All supported currencies are always returned (with `null` for unavailable ones).
+
 ## [2.0.0] - 2026-02-13
 
 ### Changed

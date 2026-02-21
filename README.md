@@ -1,19 +1,22 @@
-# CurrencyApi PHP wrapper 
+# CurrencyApi PHP wrapper
 
-[![Latest Stable Version](https://poser.pugx.org/houseofapis/currencyapi/v/stable)](https://packagist.org/packages/houseofapis/currencyapi) [![License](https://poser.pugx.org/houseofapis/currencyapi/license)](https://packagist.org/packages/houseofapis/currencyapi) [![Build Status](https://travis-ci.org/houseofapis/currencyapi-php.svg?branch=master)](https://travis-ci.org/houseofapis/currencyapi-php) [![Coverage Status](https://coveralls.io/repos/github/houseofapis/currencyapi-php/badge.svg?branch=master)](https://coveralls.io/github/houseofapis/currencyapi-php?branch=master) 
+[![Latest Stable Version](https://poser.pugx.org/houseofapis/currencyapi/v/stable)](https://packagist.org/packages/houseofapis/currencyapi) [![License](https://poser.pugx.org/houseofapis/currencyapi/license)](https://packagist.org/packages/houseofapis/currencyapi) [![Build Status](https://travis-ci.org/houseofapis/currencyapi-php.svg?branch=master)](https://travis-ci.org/houseofapis/currencyapi-php) [![Coverage Status](https://coveralls.io/repos/github/houseofapis/currencyapi-php/badge.svg?branch=master)](https://coveralls.io/github/houseofapis/currencyapi-php?branch=master)
 
-<a href="https://currencyapi.net" title="CurrencyApi">CurrencyApi.net</a> provides live currency rates via a REST API. A live currency feed for over 152 currencies, including physical (USD, GBP, EUR + more) and cryptos (Bitcoin, Litecoin, Ethereum + more). A JSON and XML currency api updated every 60 seconds. 
+<a href="https://currencyapi.net" title="CurrencyApi">CurrencyApi.net</a> provides live currency rates via a REST API. A live currency feed for over 163 currencies, including physical (USD, GBP, EUR + more) and cryptos (Bitcoin, Litecoin, Ethereum + more). A JSON and XML currency api updated every 60 seconds.
 
 Features:
 
 - Live exchange rates (updated every 60 seconds).
-- 152 currencies world currencies.
+- 163+ world currencies.
 - Popular cryptocurrencies included; Bitcoin, Litecoin etc.
 - Convert currencies on the fly with the convert endpoint.
 - Historical currency rates back to year 2000.
+- OHLC (candlestick) data for technical analysis.
 - Easy to follow <a href="https://currencyapi.net/documentation" title="currency-api-documentation">documentation</a>
 
 Signup for a free or paid account <a href="https://currencyapi.net/pricing" title="currency-api-pricing">here</a>.
+
+> **Note:** API v1 is deprecated and will be retired on **31st July 2026**, at which point all v1 traffic will be redirected to v2. This SDK (v3.0.0+) targets API v2. If you are on an older version of this SDK, please upgrade.
 
 ## This package is a:
 
@@ -61,6 +64,8 @@ $currencyApi = new \CurrencyApi\CurrencyApi('API_KEY');
 
 ### Live rates:
 
+Returns the latest exchange rates for all supported currencies.
+
 ```php
 $result = $currencyApi->rates();
 ```
@@ -70,7 +75,6 @@ Example with all available methods:
 $result = $currencyApi
     ->setBase('USD')
     ->setOutput('JSON')
-    ->setLimit('BTC,EUR,GBP')
     ->rates();
 ```
 **Available methods for rates endpoint**
@@ -79,11 +83,12 @@ $result = $currencyApi
 | --- | --- |
 | `setBase()` | The base currency you wish you receive the currency conversions for. This will output all currency conversions for that currency. **Default: USD**. |
 | `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
-| `setLimit()` | Limit which currency conversions are returned using the limit param. Comma separated (no space) values. **Optional** |
 
 <br>
 
 ### List of available currencies:
+
+Returns a list of all currencies supported by the API.
 
 ```php
 $result = $currencyApi->currencies();
@@ -106,6 +111,8 @@ $result = $currencyApi
 
 ### Convert:
 
+Converts an amount from one currency to another using the latest rates.
+
 ```php
 $result = $currencyApi
     ->setAmount(100)
@@ -127,6 +134,8 @@ $result = $currencyApi
 
 ### Historical:
 
+Returns exchange rates for all currencies on a specific date.
+
 ```php
 $result = $currencyApi->setDate('2019-01-01')->historical();
 ```
@@ -137,7 +146,6 @@ Example with all available methods:
 $result = $currencyApi
     ->setDate('2019-01-01')
     ->setBase('GBP')
-    ->setLimit('USD')
     ->setOutput('JSON')
     ->historical();
 ```
@@ -149,14 +157,15 @@ $result = $currencyApi
 | `setDate()` | The historical date you wish to receive the currency conversions for. This should be formatted as YYYY-MM-DD. **Required**. |
 | `setBase()` | The base currency you wish you receive the currency conversions for. This will output all currency conversions for that currency. **Default: USD**. |
 | `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
-| `setLimit()` | Limit which currency conversions are returned using the limit param. Comma separated (no space) values. **Optional** |
 
 <br>
 
 ### Timeframe:
 
+Returns exchange rates for all currencies across a date range, with one entry per day.
+
 ```php
-$result = $currencyApi->setStartDate('2019-01-01')->setEndDate('2019-01-05')->historical();
+$result = $currencyApi->setStartDate('2019-01-01')->setEndDate('2019-01-05')->timeframe();
 ```
 
 Example with all available methods:
@@ -166,7 +175,6 @@ $result = $currencyApi
     ->setStartDate('2019-01-01')
     ->setEndDate('2019-01-05')
     ->setBase('GBP')
-    ->setLimit('USD,BTC')
     ->setOutput('XML')
     ->timeframe();
 ```
@@ -179,5 +187,57 @@ $result = $currencyApi
 | `setEndDate()` | The historical date you wish to receive the currency conversions until. This should be formatted as YYYY-MM-DD. **Required**. |
 | `setBase()` | The base currency you wish you receive the currency conversions for. This will output all currency conversions for that currency. **Default: USD**. |
 | `setOutput()` | Response output in either JSON or XML. **Default: JSON**. |
-| `setLimit()` | Limit which currency conversions are returned using the limit param. Comma separated (no space) values. **Optional** |
 
+<br>
+
+### OHLC (Open, High, Low, Close):
+
+Returns candlestick data for a currency pair on a given date, useful for charting and technical analysis.
+
+```php
+$result = $currencyApi
+    ->setCurrency('EUR')
+    ->setDate('2023-12-25')
+    ->ohlc();
+```
+
+Example with all available methods:
+
+```php
+$result = $currencyApi
+    ->setCurrency('EUR')
+    ->setDate('2023-12-25')
+    ->setBase('GBP')
+    ->setInterval('1h')
+    ->ohlc();
+```
+
+**Available methods for OHLC endpoint**
+
+| Methods | Description |
+| --- | --- |
+| `setCurrency()` | The currency to retrieve OHLC data for. Three letter ISO 4217 currency code. **Required**. |
+| `setDate()` | The date to retrieve OHLC data for. This should be formatted as YYYY-MM-DD. **Required**. |
+| `setBase()` | The base currency for the rates. **Default: USD**. |
+| `setInterval()` | The interval for the OHLC candles. One of: `5m`, `15m`, `30m`, `1h`, `4h`, `12h`, `1d`. **Default: 1d**. |
+
+**Example response:**
+
+```json
+{
+    "valid": true,
+    "base": "USD",
+    "quote": "EUR",
+    "date": "2023-12-25",
+    "interval": "1d",
+    "ohlc": [
+        {
+            "start": "2023-12-25T00:00:00Z",
+            "open": 0.9123,
+            "high": 0.9187,
+            "low": 0.9098,
+            "close": 0.9154
+        }
+    ]
+}
+```

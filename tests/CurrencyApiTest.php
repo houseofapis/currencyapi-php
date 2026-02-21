@@ -42,39 +42,27 @@ class CurrencyApiTest extends TestCase
         return $method->invokeArgs($object, $parameters);
     }
 
-    public function getProtectedProperty($object, $property) 
+    public function getProtectedProperty($object, $property)
     {
         $reflection = new \ReflectionClass($object);
         $reflection_property = $reflection->getProperty($property);
         return $reflection_property->getValue($object);
-    }   
-
-    public function testGetCommonBaseAndLimitDefaultBaseWithLimit()
-    {
-        $base = 'USD';
-        $limit = 'USD,EUR';
-        $this->currencyApi->setBase($base);
-        $this->currencyApi->setLimit($limit);
-
-        $invokedMethod = $this->invokeMethod($this->currencyApi, 'getCommonBaseAndLimit');
-
-        $this->assertArrayNotHasKey('base', $invokedMethod);
-        $this->assertArrayHasKey('limit', $invokedMethod);
-        $this->assertContains($limit, $invokedMethod);
     }
 
-    public function testGetCommonBaseAndLimitNotDefaultBaseWithoutLimit()
+    public function testGetCommonBaseDefaultBase()
     {
-        $base = 'GBP';
-        $limit = '';
-        $this->currencyApi->setBase($base);
-        $this->currencyApi->setLimit($limit);
+        $this->currencyApi->setBase('USD');
+        $invokedMethod = $this->invokeMethod($this->currencyApi, 'getCommonBase');
+        $this->assertArrayNotHasKey('base', $invokedMethod);
+        $this->assertEmpty($invokedMethod);
+    }
 
-        $invokedMethod = $this->invokeMethod($this->currencyApi, 'getCommonBaseAndLimit');
-
+    public function testGetCommonBaseNotDefaultBase()
+    {
+        $this->currencyApi->setBase('GBP');
+        $invokedMethod = $this->invokeMethod($this->currencyApi, 'getCommonBase');
         $this->assertArrayHasKey('base', $invokedMethod);
         $this->assertContains('GBP', $invokedMethod);
-        $this->assertArrayNotHasKey('limit', $invokedMethod);
     }
 
     public function testGetSharedParamsNotDefault()
@@ -144,6 +132,20 @@ class CurrencyApiTest extends TestCase
         $this->assertEquals($date, $this->getProtectedProperty($this->currencyApi, 'end_date'));
     }
 
+    public function testSetCurrency()
+    {
+        $currency = 'eur';
+        $this->assertEquals($this->currencyApi, $this->currencyApi->setCurrency($currency));
+        $this->assertEquals('EUR', $this->getProtectedProperty($this->currencyApi, 'currency'));
+    }
+
+    public function testSetInterval()
+    {
+        $interval = '1h';
+        $this->assertEquals($this->currencyApi, $this->currencyApi->setInterval($interval));
+        $this->assertEquals($interval, $this->getProtectedProperty($this->currencyApi, 'interval'));
+    }
+
     public function testGetConvertParams()
     {
         $amount = 100;
@@ -182,22 +184,50 @@ class CurrencyApiTest extends TestCase
         ], $invokedMethod);
     }
 
+    public function testGetOhlcParams()
+    {
+        $currency = 'EUR';
+        $date = '2023-12-25';
+        $this->currencyApi->setCurrency($currency);
+        $this->currencyApi->setDate($date);
+        $invokedMethod = $this->invokeMethod($this->currencyApi, 'getOhlcParams');
+        $this->assertEquals([
+            'currency' => $currency,
+            'date' => $date,
+        ], $invokedMethod);
+    }
+
+    public function testGetOhlcParamsWithBaseAndInterval()
+    {
+        $currency = 'EUR';
+        $date = '2023-12-25';
+        $base = 'GBP';
+        $interval = '1h';
+        $this->currencyApi->setCurrency($currency);
+        $this->currencyApi->setDate($date);
+        $this->currencyApi->setBase($base);
+        $this->currencyApi->setInterval($interval);
+        $invokedMethod = $this->invokeMethod($this->currencyApi, 'getOhlcParams');
+        $this->assertEquals([
+            'currency' => $currency,
+            'date' => $date,
+            'base' => $base,
+            'interval' => $interval,
+        ], $invokedMethod);
+    }
+
     public function testBuildUrl()
     {
         $endpoint = 'rates';
 
         $urlParams = [];
         $invokedMethod = $this->invokeMethod($this->currencyApi, 'buildUrl', [$endpoint, $urlParams]);
-        $this->assertEquals('https://currencyapi.net/api/v1/rates?key=123', $invokedMethod);
+        $this->assertEquals('https://currencyapi.net/api/v2/rates?key=123', $invokedMethod);
 
-        $urlParams = ['limit' => 'GBP,EUR'];
-        $invokedMethod = $this->invokeMethod($this->currencyApi, 'buildUrl', [$endpoint, $urlParams]);
-        $this->assertEquals('https://currencyapi.net/api/v1/rates?limit=GBP%2CEUR&key=123', $invokedMethod);
-
-        $urlParams = ['limit' => 'GBP,EUR', 'base' => 'BTC'];
+        $urlParams = ['base' => 'BTC'];
         $this->currencyApi->setOutput('xMl');
         $invokedMethod = $this->invokeMethod($this->currencyApi, 'buildUrl', [$endpoint, $urlParams]);
-        $this->assertEquals('https://currencyapi.net/api/v1/rates?limit=GBP%2CEUR&base=BTC&key=123&output=XML', $invokedMethod);
+        $this->assertEquals('https://currencyapi.net/api/v2/rates?base=BTC&key=123&output=XML', $invokedMethod);
     }
 
     public function testGetCurlError()
@@ -262,10 +292,10 @@ class CurrencyApiTest extends TestCase
 
     public function testGet()
     {
-        $expectedResponse = '{"valid": true, "timestamp": 1584738889, "base": "USD", "rates": {"AED": 3.67338, "AFN": 76.154}}';
+        $expectedResponse = '{"valid": true, "updated": 1584738889, "base": "USD", "rates": {"AED": 3.67338, "AFN": 76.154}}';
         $expectedResult = [
             'valid' => true,
-            'timestamp' => 1584738889,
+            'updated' => 1584738889,
             'base' => 'USD',
             'rates' => ['AED' => 3.67338, 'AFN' => 76.154]
         ];
@@ -277,20 +307,21 @@ class CurrencyApiTest extends TestCase
 
     public function testEndpointMethods()
     {
-        $expectedResponse = '{"valid": true, "timestamp": 1584738889, "base": "USD", "rates": {"AED": 3.67338, "AFN": 76.154}}';
+        $expectedResponse = '{"valid": true, "updated": 1584738889, "base": "USD", "rates": {"AED": 3.67338, "AFN": 76.154}}';
         $expectedResult = [
             'valid' => true,
-            'timestamp' => 1584738889,
+            'updated' => 1584738889,
             'base' => 'USD',
             'rates' => ['AED' => 3.67338, 'AFN' => 76.154]
         ];
         $curl_exec = $this->getFunctionMock("HouseOfApis\CurrencyApi", "curl_exec");
         $curl_exec->expects($this->any())->willReturn($expectedResponse);
-        $this->assertEquals($expectedResult,$this->currencyApi->rates());
-        $this->assertEquals($expectedResult,$this->currencyApi->currencies());
-        $this->assertEquals($expectedResult,$this->currencyApi->convert());
-        $this->assertEquals($expectedResult,$this->currencyApi->historical());
-        $this->assertEquals($expectedResult,$this->currencyApi->timeframe());
+        $this->assertEquals($expectedResult, $this->currencyApi->rates());
+        $this->assertEquals($expectedResult, $this->currencyApi->currencies());
+        $this->assertEquals($expectedResult, $this->currencyApi->convert());
+        $this->assertEquals($expectedResult, $this->currencyApi->historical());
+        $this->assertEquals($expectedResult, $this->currencyApi->timeframe());
+        $this->assertEquals($expectedResult, $this->currencyApi->ohlc());
     }
 }
 
