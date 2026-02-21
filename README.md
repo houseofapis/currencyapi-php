@@ -1,6 +1,6 @@
 # CurrencyApi PHP wrapper
 
-[![Latest Stable Version](https://poser.pugx.org/houseofapis/currencyapi/v/stable)](https://packagist.org/packages/houseofapis/currencyapi) [![License](https://poser.pugx.org/houseofapis/currencyapi/license)](https://packagist.org/packages/houseofapis/currencyapi) [![Build Status](https://travis-ci.org/houseofapis/currencyapi-php.svg?branch=master)](https://travis-ci.org/houseofapis/currencyapi-php) [![Coverage Status](https://coveralls.io/repos/github/houseofapis/currencyapi-php/badge.svg?branch=master)](https://coveralls.io/github/houseofapis/currencyapi-php?branch=master)
+[![Latest Stable Version](https://poser.pugx.org/houseofapis/currencyapi/v/stable)](https://packagist.org/packages/houseofapis/currencyapi) [![License](https://poser.pugx.org/houseofapis/currencyapi/license)](https://packagist.org/packages/houseofapis/currencyapi) [![Build Status](https://travis-ci.org/houseofapis/currencyapi-php.svg?branch=main)](https://travis-ci.org/houseofapis/currencyapi-php) [![Coverage Status](https://coveralls.io/repos/github/houseofapis/currencyapi-php/badge.svg?branch=main)](https://coveralls.io/github/houseofapis/currencyapi-php?branch=main)
 
 <a href="https://currencyapi.net" title="CurrencyApi">CurrencyApi.net</a> provides live currency rates via a REST API. A live currency feed for over 163 currencies, including physical (USD, GBP, EUR + more) and cryptos (Bitcoin, Litecoin, Ethereum + more). A JSON and XML currency api updated every 60 seconds.
 
