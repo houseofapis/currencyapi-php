@@ -9,6 +9,9 @@ RUN apk --no-cache add pcre-dev linux-headers ${PHPIZE_DEPS} \
   && apk del pcre-dev linux-headers ${PHPIZE_DEPS}
   
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
-COPY composer.json $APP_DIR/
+COPY composer.json composer.lock $APP_DIR/
+RUN composer install --no-interaction
 
-RUN composer install
+COPY . $APP_DIR/
+
+CMD ["./vendor/bin/phpunit"]

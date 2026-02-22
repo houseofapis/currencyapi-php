@@ -2,21 +2,24 @@
 .PHONY: help
 LOCAL_DOCKER_IMAGE=houseofapis/currencyapi-php
 CONTAINER_NAME=currencyapi-php
-WORKING_DIR=/application
+WORKING_DIR=/app
 PORT=7005
-DOCKER_COMMAND=docker run --rm -v ${PWD}:${WORKING_DIR} -w ${WORKING_DIR} --name ${CONTAINER_NAME} -p ${PORT}:${PORT} -it ${LOCAL_DOCKER_IMAGE}
+# Use official image so test/run work without building
+DOCKER_IMAGE ?= composer:2
+DOCKER_RUN = docker run --rm -v ${PWD}:${WORKING_DIR} -w ${WORKING_DIR} --name ${CONTAINER_NAME} -p ${PORT}:${PORT}
+DOCKER_RUN_IT = docker run --rm -v ${PWD}:${WORKING_DIR} -w ${WORKING_DIR} --name ${CONTAINER_NAME} -p ${PORT}:${PORT} -it
 
 build: ## Build docker image
 	docker build -t ${LOCAL_DOCKER_IMAGE} . --no-cache
 
-test: ## Run the tests
-	${DOCKER_COMMAND} php -d xdebug.mode=coverage ./vendor/bin/phpunit --coverage-html build/logs/coverage.html
+test: ## Run the tests (no build required)
+	${DOCKER_RUN} ${DOCKER_IMAGE} sh -c "composer install --no-interaction && ./vendor/bin/phpunit"
 
 install: ## Composer install
-	${DOCKER_COMMAND} composer install
+	${DOCKER_RUN} ${DOCKER_IMAGE} composer install --no-interaction
 
-run: ## Run test file
-	${DOCKER_COMMAND} php run.php
+run: ## Run the run file (no build required)
+	${DOCKER_RUN_IT} ${DOCKER_IMAGE} sh -c "composer install --no-interaction && php run.php"
 
 help:
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'

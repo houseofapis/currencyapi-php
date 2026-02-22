@@ -102,12 +102,12 @@ class CurrencyApi
     protected $end_date = '';
 
     /**
-     * The currency to retrieve OHLC data for.
+     * The quote currency to retrieve OHLC data for.
      * This will be a three letter ISO 4217 currency code.
      *
      * @var string
      */
-    protected $currency = '';
+    protected $quote = '';
 
     /**
      * The interval for OHLC data.
@@ -231,15 +231,15 @@ class CurrencyApi
     }
 
     /**
-     * Sets the currency for the OHLC endpoint
-     * See currency property for description ^
+     * Sets the quote currency for the OHLC endpoint
+     * See quote property for description ^
      *
-     * @param string $currency
+     * @param string $quote
      * @return CurrencyApi
      */
-    public function setCurrency(string $currency) : CurrencyApi
+    public function setQuote(string $quote) : CurrencyApi
     {
-        $this->currency = strtoupper($currency);
+        $this->quote = strtoupper($quote);
         return $this;
     }
 
@@ -374,7 +374,7 @@ class CurrencyApi
     protected function getOhlcParams() : array
     {
         $params = [
-            'currency' => $this->currency,
+            'quote' => $this->quote,
             'date' => $this->date,
         ];
         if ($this->base !== self::DEFAULT_BASE) {
