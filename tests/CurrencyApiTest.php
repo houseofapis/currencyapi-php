@@ -132,11 +132,11 @@ class CurrencyApiTest extends TestCase
         $this->assertEquals($date, $this->getProtectedProperty($this->currencyApi, 'end_date'));
     }
 
-    public function testSetCurrency()
+    public function testSetQuote()
     {
-        $currency = 'eur';
-        $this->assertEquals($this->currencyApi, $this->currencyApi->setCurrency($currency));
-        $this->assertEquals('EUR', $this->getProtectedProperty($this->currencyApi, 'currency'));
+        $quote = 'eur';
+        $this->assertEquals($this->currencyApi, $this->currencyApi->setQuote($quote));
+        $this->assertEquals('EUR', $this->getProtectedProperty($this->currencyApi, 'quote'));
     }
 
     public function testSetInterval()
@@ -186,30 +186,30 @@ class CurrencyApiTest extends TestCase
 
     public function testGetOhlcParams()
     {
-        $currency = 'EUR';
+        $quote = 'EUR';
         $date = '2023-12-25';
-        $this->currencyApi->setCurrency($currency);
+        $this->currencyApi->setQuote($quote);
         $this->currencyApi->setDate($date);
         $invokedMethod = $this->invokeMethod($this->currencyApi, 'getOhlcParams');
         $this->assertEquals([
-            'currency' => $currency,
+            'quote' => $quote,
             'date' => $date,
         ], $invokedMethod);
     }
 
     public function testGetOhlcParamsWithBaseAndInterval()
     {
-        $currency = 'EUR';
+        $quote = 'EUR';
         $date = '2023-12-25';
         $base = 'GBP';
         $interval = '1h';
-        $this->currencyApi->setCurrency($currency);
+        $this->currencyApi->setQuote($quote);
         $this->currencyApi->setDate($date);
         $this->currencyApi->setBase($base);
         $this->currencyApi->setInterval($interval);
         $invokedMethod = $this->invokeMethod($this->currencyApi, 'getOhlcParams');
         $this->assertEquals([
-            'currency' => $currency,
+            'quote' => $quote,
             'date' => $date,
             'base' => $base,
             'interval' => $interval,

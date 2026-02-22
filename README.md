@@ -196,7 +196,7 @@ Returns candlestick data for a currency pair on a given date, useful for chartin
 
 ```php
 $result = $currencyApi
-    ->setCurrency('EUR')
+    ->setQuote('EUR')
     ->setDate('2023-12-25')
     ->ohlc();
 ```
@@ -205,7 +205,7 @@ Example with all available methods:
 
 ```php
 $result = $currencyApi
-    ->setCurrency('EUR')
+    ->setQuote('EUR')
     ->setDate('2023-12-25')
     ->setBase('GBP')
     ->setInterval('1h')
@@ -216,7 +216,7 @@ $result = $currencyApi
 
 | Methods | Description |
 | --- | --- |
-| `setCurrency()` | The currency to retrieve OHLC data for. Three letter ISO 4217 currency code. **Required**. |
+| `setQuote()` | The quote currency to retrieve OHLC data for. Three letter ISO 4217 currency code. **Required**. |
 | `setDate()` | The date to retrieve OHLC data for. This should be formatted as YYYY-MM-DD. **Required**. |
 | `setBase()` | The base currency for the rates. **Default: USD**. |
 | `setInterval()` | The interval for the OHLC candles. One of: `5m`, `15m`, `30m`, `1h`, `4h`, `12h`, `1d`. **Default: 1d**. |
