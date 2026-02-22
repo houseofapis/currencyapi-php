@@ -21,5 +21,8 @@ install: ## Composer install
 run: ## Run the run file (no build required)
 	${DOCKER_RUN_IT} ${DOCKER_IMAGE} sh -c "composer install --no-interaction && php run.php"
 
+release: ## Tag and push release for Packagist (use: make release VERSION=3.1.0)
+	git tag -a v$(VERSION) -m "Release v$(VERSION)" && git push origin v$(VERSION)
+
 help:
 	@grep -h -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
